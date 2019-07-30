@@ -1,0 +1,60 @@
+package 剑指offer._35数组中的逆序对;
+
+class Solution {
+    long Num = 0;
+    public void mergerSortCode(int[] arr,int leftstart,int leftend,int rightstart,int rightend){
+        int[] arr2 = new int[rightend-leftstart+1];
+        int left = leftstart;
+        int num = 0;
+        while(leftstart <= leftend && rightstart<=rightend){
+            if(arr[leftstart] < arr[rightstart]) {
+                arr2[num] = arr[leftstart];
+                leftstart++;
+            }
+            else {
+                Num += leftend+1-leftstart;  // 当有左边数组有一个数大于右边数组时，那么左边数组后边的数 都大于右边数组是这个数
+                arr2[num] = arr[rightstart];
+                rightstart++;
+            }
+            num++;
+        }
+        if(leftstart>leftend){
+            while(rightstart<=rightend){
+                arr2[num] = arr[rightstart];
+                num++;
+                rightstart++;
+            }
+        }else{
+            while(leftstart<=leftend){
+                arr2[num] = arr[leftstart];
+                num++;
+                leftstart++;
+            }
+        }
+        num=0;
+        while(left<=rightend){
+            arr[left] = arr2[num];
+            num++;
+            left++;
+        }
+
+    }
+
+    public void mergerSort(int[] arr,int start,int end){
+        if(start == end)
+            return;
+        int mid = (start+end)/2;
+        mergerSort(arr,start,mid);
+        mergerSort(arr,mid+1,end);
+        mergerSortCode(arr,start,mid,mid+1,end);
+    }
+    public int InversePairs(int [] array) {
+        mergerSort(array,0,array.length-1);
+        if(Num >= 1000000007)
+            Num %= 1000000007;
+        return Integer.valueOf(Num+"");
+    }
+}
+
+public class Main {
+}
